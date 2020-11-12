@@ -1,0 +1,37 @@
+Rubric check list
+	[ ] Layout and presentation
+	[X] Time stamps
+	[ ] Scroll-up text
+	[ ] Chat log history
+	[X] Display current users
+	[X] Change username
+	[ ] Username color
+	[ ] Bold messages
+	[ ] Cookies
+	[ ] Emoji replacements
+
+
+Useful things I guess
+	windows powershell	
+
+location:
+	cd D:/downloads/University/Year5/"SENG 513"/Assignments/Assignment3
+
+socketIO cheat sheet
+	https://socket.io/docs/v3/emit-cheatsheet/index.html
+
+socketIO documentation
+	https://socket.io/docs/v3/server-api/index.html
+	https://devdocs.io/socketio/
+
+Flexbox help
+	https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+JavaScript dictionary help
+	https://pietschsoft.com/post/2015/09/05/javascript-basics-how-to-create-a-dictionary-with-keyvalue-pairs
+
+	deleting an object property
+	https://stackoverflow.com/questions/208105/how-do-i-remove-a-property-from-a-javascript-object
+
+mdn on Date object
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date

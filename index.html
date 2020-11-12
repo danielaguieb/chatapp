@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+	<title>Socket.IO chat</title>
+	<style>
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body { font: 13px Helvetica, Arial; }
+		form { background: #000; padding: 3px; /*position: fixed; bottom: 0;*/ width: 100%; }
+		form input { border: 0; padding: 10px; width: 90%; margin-right: 0.5%; }
+		form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+		#messages { list-style-type: none; margin: 0; padding: 0; }
+		#messages li { padding: 5px 10px; }
+		#messages li:nth-child(odd) { background: #eee; }
+
+		#content {
+			display: flex;
+			justify-content: space-around;
+		}
+		
+		#chatWrap {
+			flex-grow: 3;
+			
+			display: flex;
+			flex-direction: column;
+		}
+
+		#usersWrap {
+			flex-grow: 1;
+		}
+	</style>
+</head>
+<body>
+
+
+	<div id="content">
+
+		<div id="chatWrap">
+			<ul id="messages"></ul>
+			<form action="">
+				<input id="m" autocomplete="off" /><button>Send</button>
+			</form>
+		</div>
+
+		<div id="usersWrap">			
+			<li>Wow thing</li>
+			<li>Psycho</li>
+			<li>Monster</li>
+		</div>
+	</div>
+
+
+
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<script>
+			// Debugging
+			// let arst = console.log.bind(console);
+			let arst = function(){};
+
+			$(function () {
+				var socket = io();
+
+				// setting user and socket id on client side for hopefully good reasons
+				// TODO if you don't need socketID on the client side, maybe get rid of it
+				var socketID = "";
+				var myUserName = "User";
+				socket.on('setUserID', (sock_id) => {
+					socketID = sock_id;
+					myUserName += socketID;
+					arst("socketID is: " + socketID);
+					arst("username is: " + myUserName);
+				});
+
+
+				// when submitting either it's a message or a command
+				$('form').submit(function(e){
+					e.preventDefault(); // prevents page reloading
+					let msg = ($('#m').val());
+					socket.emit('chat message', msg);
+					$('#m').val('');
+					return false;
+				});
+
+				socket.on('chat message', function(msg){
+					$('#messages').append($('<li>').text(msg));
+				});
+
+				// empty userList and repopulate it
+				socket.on('updateUserList', (users) => {
+					$('#usersWrap').empty();
+					for(let userID in users){
+						arst("in updateUserList");
+						arst(userID);
+						arst(myUserName);
+						if(users[userID] === myUserName){
+							$('#usersWrap').append($('<li>)').text(users[userID]+" (You)"));
+						}
+						else {
+							$('#usersWrap').append($('<li>)').text(users[userID]));
+						}
+					}
+				});
+
+				socket.on('updateUserName', (newName) => {
+					myUserName = newName;
+				});
+
+				// socket.on('load chat log history', (messages) => {
+				// 	for(let message in messages){
+
+				// 	}
+				// });
+
+			});
+		</script>
+	</body>
+	</html>
