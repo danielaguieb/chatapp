@@ -40,9 +40,9 @@ function Queue() {
 function getTimeStamp() {
 	let curr = new Date();
 	// let timeZone = "GMT" + (curr.getTimezoneOffset() / -60);
-	return "[" +timeZone+" "+
+	// return "[" +timeZone+" "+
 		// curr.getHours()+":"+curr.getMinutes()+":"+curr.getSeconds()+"]";
-		curr.getHours()+":"+curr.getMinutes()+"]";
+	return "["+curr.getHours()+":"+curr.getMinutes()+"]";
 }
 
 function checkDuplicateName(u, name){
