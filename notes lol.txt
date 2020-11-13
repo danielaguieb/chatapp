@@ -1,11 +1,12 @@
 Rubric check list
 	[ ] Layout and presentation
 	[X] Time stamps
+	[X] Usernames
 	[ ] Scroll-up text
-	[ ] Chat log history
+	[X] Chat log history
 	[X] Display current users
 	[X] Change username
-	[ ] Username color
+	[X] Username color
 	[ ] Bold messages
 	[ ] Cookies
 	[ ] Emoji replacements

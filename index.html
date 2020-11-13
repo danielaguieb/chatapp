@@ -5,14 +5,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="UTF-8">
 	<!-- <link href="style.css" rel="stylesheet" type="text/css"> -->
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;400&display=swap" rel="stylesheet">
 	<style>
 		* {
 			margin: 0;
 			padding: 0;
 			box-sizing: border-box;
+			font-family: 'Roboto Mono', monospace;
 		}
 		body {
-			font: 13px Helvetica, Arial;
       		max-width: 960px;
       		max-height: 100%;
       		min-height: 100%;
@@ -152,11 +153,6 @@
 			socket.on('updateMessageColor', (messages) => {
 				arst(messages);
 				$('#messages').empty();
-				// for(let message in messages){
-				// 	arst(message);
-				// 	let msg = message.time+" "+message.user+": "+message.msg;
-				// 	$('#messages').append($('<li>').text(msg));
-				// }
 				for(let i=0; i<messages.length; i++){
 					let message = messages[i];
 					arst(message.time+" "+message.user+": "+message.msg);

@@ -101,14 +101,10 @@ io.on('connect', (socket) => {
 				}
 				else {
 					socket.emit('updateUserName', command[1]);
-					// enqueue(messages, users[socketid][0]+" has changed to "+command[1]);
-					// io.emit('chat message', users[socketid][0]+" has changed to "+command[1], "000000");
 					users[socketid][0] = command[1];
 					io.emit('updateUserList', users);
 				}
 			}
-
-			// TODO error check this
 			else if(command[0] === "/color") {
 				users[socketid][1] = command[1];
 				arst(users);
