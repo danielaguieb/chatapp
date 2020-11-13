@@ -35,3 +35,17 @@ JavaScript dictionary help
 
 mdn on Date object
 	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+
+how to center in css
+	http://howtocenterincss.com/
+
+big text
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac ullamcorper elit. Curabitur eget quam rutrum massa lacinia eleifend ac in mi. Aenean fermentum iaculis sapien, et elementum turpis. Fusce nisi magna, semper in neque id, mollis consectetur velit. Maecenas id maximus nisi, sagittis lacinia lectus. Vestibulum eu lobortis lectus. Ut tellus leo, condimentum id porta id, sagittis vitae mauris. Aliquam erat volutpat. Aenean dictum nibh a est congue mattis. Nam rutrum mi quis lorem consectetur accumsan. Cras vel neque in sapien bibendum consectetur. Sed vel ornare massa, vel convallis lorem. Aenean sodales tortor leo, nec semper quam ultricies ac. Ut lacinia rhoncus fermentum.
+
+	Aenean sed bibendum metus. Nam nec mauris a tortor imperdiet lobortis vitae in justo. Donec laoreet, felis sit amet tempus dictum, elit ex vulputate turpis, nec ornare nunc libero sed leo. Maecenas quis dolor at massa dapibus fermentum. Donec ipsum nisl, dignissim nec elit quis, malesuada rhoncus nunc. Vestibulum vitae justo vitae sapien varius cursus. Donec sapien lectus, viverra non posuere ac, euismod ut diam. Ut mattis metus quis sapien porttitor, vel dignissim lorem tempus. Nullam risus nibh, aliquam non malesuada sed, fermentum vitae orci. Aenean eu tristique justo. Praesent malesuada ex nisl, et iaculis enim varius non. Sed velit velit, consectetur eu ex eget, sagittis varius neque. Donec volutpat scelerisque orci vel auctor. Morbi nec vestibulum urna.
+
+	Morbi fringilla venenatis sem. Maecenas volutpat rhoncus lacus sit amet euismod. Donec efficitur ex at ligula blandit, eget feugiat arcu rhoncus. Vivamus sit amet arcu felis. Sed condimentum mi at egestas auctor. Sed vitae quam sed quam luctus euismod nec sit amet turpis. Integer venenatis, arcu et viverra elementum, leo lacus pretium purus, eget molestie nibh nunc sit amet purus. Sed suscipit est ac enim dignissim tempor. Etiam nec malesuada sapien. Quisque in purus quis ante consequat iaculis vitae id massa. Curabitur mattis semper ex, quis placerat ante dapibus in.
+
+	Maecenas a dolor id sapien faucibus faucibus. Pellentesque vitae ante quis diam aliquet scelerisque vitae quis urna. Integer malesuada dui ligula, eleifend vulputate orci pharetra eu. Mauris et mollis dui. Quisque sed congue est. Praesent scelerisque aliquet dui at interdum. Donec at volutpat augue. Nam a efficitur augue. Pellentesque fermentum ac purus id sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam ac tempus est, et accumsan leo. Proin sapien ante, iaculis ac ipsum vel, egestas elementum nisi. Aliquam ipsum leo, cursus vel efficitur eget, accumsan id mi. Donec bibendum ex cursus leo ultrices maximus. Sed ultricies eros nec mi tincidunt convallis.
+
+	Nam pretium nibh vel venenatis varius. In porttitor scelerisque lacus, vitae interdum velit aliquet eu. Pellentesque facilisis elit vel lectus feugiat placerat. Proin non iaculis leo. Nunc mollis lobortis sem, eu pretium tortor gravida quis. Praesent ligula lacus, consectetur eget felis eget, ullamcorper ultrices mauris. Duis id urna eu quam vestibulum dictum. Integer bibendum ipsum id nibh congue, a posuere neque consequat. Fusce sodales tincidunt mi, ut commodo mi hendrerit vitae. Duis urna tortor, ullamcorper quis placerat non, consequat viverra arcu.

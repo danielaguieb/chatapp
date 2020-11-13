@@ -2,6 +2,8 @@ var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
+// app.use(express.static('css'));
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
@@ -10,32 +12,17 @@ app.get('/', (req, res) => {
 // let arst = function(){};
 let arst = console.log.bind(console);
 
-// Queue with max size of 200, self regulated
-function Queue() {
 
-	let _elements = [];
-
-	function enqueue(theSocketID, theTimeStamp, theUser, theMsg) {
-		if(_elements.length === 200)
-			_elements.shift();
-		_elements.push( {sock_id: 	theSocketID,
-						time: 		theTimeStamp,
-						user: 		theUser,
-						msg: 		theMsg
-		});
-	}
-
-	function reveal() {
-		return _elements;
-	}
-
-	function length() {
-		return _elements.length;
-	}
-
-	return {enqueue, reveal, length};
+// make sure max size is 200
+function enqueue(theQueue, theSocketID, theTimeStamp, theUser, theMsg, theColor) {
+	if(theQueue.length > 200)
+		theQueue.shift();
+	theQueue.push({sock_id: 	theSocketID,
+					time: 		theTimeStamp,
+					user: 		theUser,
+					msg: 		theMsg,
+					clr: 		theColor});
 }
-
 
 function getTimeStamp() {
 	let curr = new Date();
@@ -47,13 +34,23 @@ function getTimeStamp() {
 
 function checkDuplicateName(u, name){
 	for(let key in u) {
-		if(u[key] === name)
+		if(u[key][0] === name)
 			return true;
 	}
 	return false;
 }
 
-// key value pair of socketid, username, <color>
+function updateMessagesColor(m, s_id, clr){
+	for(let i = 0; i<m.length; i++){
+		if(m[i].sock_id === s_id)
+			m[i].clr = clr;
+	}
+	// arst("updating message color");
+}
+
+/*
+ * socketid: [username, color]
+*/
 var users = {};
 
 
@@ -62,8 +59,9 @@ var users = {};
  * time: 	theTimeStamp,
  * user: 	theUser,
  * msg: 	theMsg
+ * clr: 	theColor
 */
-var messages = Queue();
+var messages = [];
 
 io.on('connect', (socket) => {
 	let socketid = socket.id;
@@ -71,16 +69,15 @@ io.on('connect', (socket) => {
 	socket.emit('setUserID', socketid);
 	// io.to(socketid).emit('load chat log history', messages.reveal());
 
-	let els = messages.reveal();
-	for(let i=0; i<messages.length(); i++){
+	for(let i=0; i<messages.length; i++){
 		io.to(socketid).emit('chat message', 
-			els[i].time + " " + els[i].user + ": " + els[i].msg);
+			messages[i].time + " " + messages[i].user + ": " + messages[i].msg, messages[i].clr);
 	}
 
-	io.to(socketid).emit('chat message', "Welcome. You are User"+socketid+"!");
+	io.to(socketid).emit('chat message', "Welcome. You are User"+socketid+"!", "000000");
 
 
-	users[socketid] = "User"+socketid;
+	users[socketid] = ["User"+socketid, "000000"];
 	io.emit('updateUserList', users);
 	arst(users);
 
@@ -91,29 +88,36 @@ io.on('connect', (socket) => {
 
 
 	// when a chat message is received, emit it to all sockets
-  	socket.on('chat message', (msg) => {
-  		if(msg.charAt(0) !== "/"){
-  			messages.enqueue(socketid, getTimeStamp(), users[socketid], msg);
-    		io.emit('chat message', getTimeStamp() + " " + users[socketid] + ": "+ msg);
-  		}
-    	else {
-    		let command = msg.split(' ');
-    		if(command[0] === "/name"){
-    			if(checkDuplicateName(users, command[1])){
-    				socket.emit('chat message', "That usename is already taken");
-    			}
-    			else {
-    				socket.emit('updateUserName', command[1]);
-  					messages.enqueue(socketid, getTimeStamp(), 
-  						"System", " "+users[socketid]+" has changed to "+command[1]);
-    				io.emit('chat message', 
-    					getTimeStamp()+" "+users[socketid]+" has changed to "+command[1]);
-    				users[socketid] = command[1];
-    				io.emit('updateUserList', users);
-    			}
-    		}
-    	}
-  	});
+	socket.on('chat message', (msg) => {
+		if(msg.charAt(0) !== "/"){
+			enqueue(messages, socketid, getTimeStamp(), users[socketid][0], msg, users[socketid][1]);
+			io.emit('chat message', getTimeStamp() + " " + users[socketid][0] + ": "+ msg, users[socketid][1]);
+		}
+		else {
+			let command = msg.split(' ');
+			if(command[0] === "/name"){
+				if(checkDuplicateName(users, command[1])){
+					socket.emit('chat message', "That usename is already taken", "000000");
+				}
+				else {
+					socket.emit('updateUserName', command[1]);
+					// enqueue(messages, users[socketid][0]+" has changed to "+command[1]);
+					// io.emit('chat message', users[socketid][0]+" has changed to "+command[1], "000000");
+					users[socketid][0] = command[1];
+					io.emit('updateUserList', users);
+				}
+			}
+
+			// TODO error check this
+			else if(command[0] === "/color") {
+				users[socketid][1] = command[1];
+				arst(users);
+				updateMessagesColor(messages, socketid, command[1]);
+				arst(messages);
+				io.emit('updateMessageColor', messages);
+			}
+		}
+	});
 });
 
 http.listen(3000, () => {
