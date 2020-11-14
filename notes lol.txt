@@ -17,7 +17,7 @@ Useful things I guess
 	windows powershell	
 
 location:
-	cd D:/downloads/University/Year5/"SENG 513"/Assignments/Assignment3
+	cd D:/downloads/University/Year5/"SENG 513"/Assignments/chatapp
 
 socketIO cheat sheet
 	https://socket.io/docs/v3/emit-cheatsheet/index.html
