@@ -11,6 +11,7 @@ Rubric check list
 	[ ] Cookies
 	[X] Emoji replacements
 
+node index.js
 
 Useful things I guess
 	windows powershell	
