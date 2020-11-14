@@ -91,7 +91,8 @@ io.on('connect', (socket) => {
 	socket.on('chat message', (msg) => {
 		if(msg.charAt(0) !== "/"){
 			enqueue(messages, socketid, getTimeStamp(), users[socketid][0], msg, users[socketid][1]);
-			io.emit('chat message', getTimeStamp() + " " + users[socketid][0] + ": "+ msg, users[socketid][1]);
+			io.emit('chat message', getTimeStamp() + " " + users[socketid][0] + ": "+ msg, 
+				users[socketid][1], socketid);
 		}
 		else {
 			let command = msg.split(' ');

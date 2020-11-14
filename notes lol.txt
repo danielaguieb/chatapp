@@ -2,12 +2,12 @@ Rubric check list
 	[ ] Layout and presentation
 	[X] Time stamps
 	[X] Usernames
-	[ ] Scroll-up text
+	[X] Scroll-up text
 	[X] Chat log history
 	[X] Display current users
 	[X] Change username
 	[X] Username color
-	[ ] Bold messages
+	[X] Bold messages
 	[ ] Cookies
 	[ ] Emoji replacements
 
@@ -39,6 +39,9 @@ mdn on Date object
 
 how to center in css
 	http://howtocenterincss.com/
+
+warnings/errors by snackbars
+	https://www.w3schools.com/howto/howto_js_snackbar.asp
 
 big text
 	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac ullamcorper elit. Curabitur eget quam rutrum massa lacinia eleifend ac in mi. Aenean fermentum iaculis sapien, et elementum turpis. Fusce nisi magna, semper in neque id, mollis consectetur velit. Maecenas id maximus nisi, sagittis lacinia lectus. Vestibulum eu lobortis lectus. Ut tellus leo, condimentum id porta id, sagittis vitae mauris. Aliquam erat volutpat. Aenean dictum nibh a est congue mattis. Nam rutrum mi quis lorem consectetur accumsan. Cras vel neque in sapien bibendum consectetur. Sed vel ornare massa, vel convallis lorem. Aenean sodales tortor leo, nec semper quam ultricies ac. Ut lacinia rhoncus fermentum.

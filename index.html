@@ -14,38 +14,44 @@
 			font-family: 'Roboto Mono', monospace;
 		}
 		body {
-      		max-width: 960px;
-      		max-height: 100%;
-      		min-height: 100%;
+		  max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
 		}
 
 		#content {
-      		display:flex;
-      		justify-content:center;
+      display:flex;
+      justify-content:center;
 		}
 		
 		#chatWrap {
 			flex-grow: 3;
-			max-width: 100%;
 			
 			display: flex;
 			flex-direction: column;
+      align-items: stretch;
+      align-content: stretch;
+      min-width:80%;
+      max-width:80%;
 		}
 
 		#messages {
+		  
+      
 	 		list-style-type: none;
 	 		margin: 0;
 	 		padding: 0;
+      min-height: 95vh;
+      max-height: 95vh;
+/* position: fixed;
+      bottom: 2.8em;
+      right: 20%; */
 
-	 		overflow: scroll;
+	 		overflow: auto;
 	 	}
 
 	 	#messages li {
 	 		padding: 5px 10px;
-	 		text-overflow: ellipsis;
-			white-space: nowrap;
-			-moz-white-space: nowrap;
-			overflow: hidden;
 	 	}
 
 	 	#messages li:nth-child(odd) {
@@ -53,29 +59,43 @@
 	 	}
 
 		form {
-			background: #000;
-			padding: 3px;/*
-		    position: fixed;
-		    bottom: 0;*/
-		    width: auto;
-	  	}
+      background: #000;
+      padding: 3px;
+      position: sticky;
+      bottom: 0;
+      min-height:2.8em;
+      max-height:2.8em;
+    }
 
 	  	form input {
 		  	border: 0;
 		  	padding: 10px;
-		  	width: 90%;
+		  	width: 80%;
 		  	margin-right: 0.5%;
 		}
 
 	  	form button {
-		  	width: 9%;
+		  	width: 19%;
 		  	background: rgb(130, 224, 255);
 		  	border: none;
 		  	padding: 10px;
 	 	}
 
 		#usersWrap {
-			flex-grow: 1;
+/* 			flex-grow: 1;
+			      flex-shrink: 1; */
+      min-width: 20%;
+      max-width: 20%;
+      max-height:100vh;
+      min-height:100vh;
+		}
+
+		#users {
+	 		list-style-type: none;
+      padding-left: 10px;
+      min-height: 100vh;
+      max-height: 100vh;
+      overflow: auto;
 		}
 	</style>
 </head>
@@ -88,10 +108,8 @@
 			</form>
 		</div>
 
-		<div id="usersWrap">			
-			<li>Wow thing</li>
-			<li>Psycho</li>
-			<li>Monster</li>
+		<div id="usersWrap">
+			<ul id="users"></ul>
 		</div>
 	</div>
 
@@ -126,22 +144,29 @@
 				return false;
 			});
 
-			socket.on('chat message', function(msg, clr){
-				$('#messages').append($('<li>').text(msg).css("color", "#"+clr));
+			socket.on('chat message', function(msg, clr, s_id){
+				if(s_id && s_id === socketID){
+					$('#messages').append($('<li>').text(msg).css("color", "#"+clr).css("font-weight", "Bold"));
+				}
+				else 
+					$('#messages').append($('<li>').text(msg).css("color", "#"+clr));
+				// $('#messages').scrollTop($('#messages').height());
+				// $('#messages').scrollTop($('#messages').height());
+				$('#messages').scrollTop(9999/0.0001);
 			});
 
 			// empty userList and repopulate it
 			socket.on('updateUserList', (users) => {
-				$('#usersWrap').empty();
+				$('#users').empty();
 				for(let userID in users){
 					arst("in updateUserList");
 					arst(userID);
 					arst(myUserName);
 					if(users[userID][0] === myUserName){
-						$('#usersWrap').append($('<li>)').text(users[userID][0]+" (You)"));
+						$('#users').append($('<li>)').text(users[userID][0]+" (You)"));
 					}
 					else {
-						$('#usersWrap').append($('<li>)').text(users[userID][0]));
+						$('#users').append($('<li>)').text(users[userID][0]));
 					}
 				}
 			});
@@ -157,7 +182,10 @@
 					let message = messages[i];
 					arst(message.time+" "+message.user+": "+message.msg);
 					arst(message.clr);
-					$('#messages').append($('<li>').text(message.time+" "+message.user+": "+message.msg).css("color", "#"+message.clr));
+					if(message.sock_id === socketID)
+						$('#messages').append($('<li>').text(message.time+" "+message.user+": "+message.msg).css("color", "#"+message.clr).css("font-weight", "Bold"));
+					else						
+						$('#messages').append($('<li>').text(message.time+" "+message.user+": "+message.msg).css("color", "#"+message.clr));
 				}
 			});
 		});
