@@ -1,5 +1,5 @@
 Rubric check list
-	[ ] Layout and presentation
+	[X] Layout and presentation
 	[X] Time stamps
 	[X] Usernames
 	[X] Scroll-up text
@@ -9,7 +9,7 @@ Rubric check list
 	[X] Username color
 	[X] Bold messages
 	[ ] Cookies
-	[ ] Emoji replacements
+	[X] Emoji replacements
 
 
 Useful things I guess

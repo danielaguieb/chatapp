@@ -17,18 +17,17 @@ let arst = console.log.bind(console);
 function enqueue(theQueue, theSocketID, theTimeStamp, theUser, theMsg, theColor) {
 	if(theQueue.length > 200)
 		theQueue.shift();
-	theQueue.push({sock_id: 	theSocketID,
+	let message = {sock_id: 	theSocketID,
 					time: 		theTimeStamp,
 					user: 		theUser,
 					msg: 		theMsg,
-					clr: 		theColor});
+					clr: 		theColor};
+	theQueue.push(message);
+	return message;
 }
 
 function getTimeStamp() {
 	let curr = new Date();
-	// let timeZone = "GMT" + (curr.getTimezoneOffset() / -60);
-	// return "[" +timeZone+" "+
-		// curr.getHours()+":"+curr.getMinutes()+":"+curr.getSeconds()+"]";
 	return "["+curr.getHours()+":"+curr.getMinutes()+"]";
 }
 
@@ -45,7 +44,24 @@ function updateMessagesColor(m, s_id, clr){
 		if(m[i].sock_id === s_id)
 			m[i].clr = clr;
 	}
-	// arst("updating message color");
+}
+
+function isRRGGBB(clr){
+	if(clr.length === 6){
+		for(let i=0; i<clr.length; i++){
+			let a = clr.charCodeAt(i);
+			if(!((48 <= a && a <= 57) || (65 <= a && a <= 70) || (97 <= a && a <= 102)))
+				return false;
+		}
+		return true;
+	}
+	return false;
+}
+
+function replaceWithEmojis(msg){
+	return msg.replace(":)", String.fromCodePoint(0x1F600)
+		).replace(":(", String.fromCodePoint(0x1F641)
+		).replace(":O", String.fromCodePoint(0x1F632));
 }
 
 /*
@@ -67,15 +83,11 @@ io.on('connect', (socket) => {
 	let socketid = socket.id;
 	// sends socket id to client, creating their generated userName using it
 	socket.emit('setUserID', socketid);
-	// io.to(socketid).emit('load chat log history', messages.reveal());
-
 	for(let i=0; i<messages.length; i++){
-		io.to(socketid).emit('chat message', 
-			messages[i].time + " " + messages[i].user + ": " + messages[i].msg, messages[i].clr);
+		io.to(socketid).emit('chat message', messages[i]);
 	}
 
-	io.to(socketid).emit('chat message', "Welcome. You are User"+socketid+"!", "000000");
-
+	io.to(socketid).emit('toast message', "Welcome. You are User"+socketid+"!");
 
 	users[socketid] = ["User"+socketid, "000000"];
 	io.emit('updateUserList', users);
@@ -90,15 +102,18 @@ io.on('connect', (socket) => {
 	// when a chat message is received, emit it to all sockets
 	socket.on('chat message', (msg) => {
 		if(msg.charAt(0) !== "/"){
-			enqueue(messages, socketid, getTimeStamp(), users[socketid][0], msg, users[socketid][1]);
-			io.emit('chat message', getTimeStamp() + " " + users[socketid][0] + ": "+ msg, 
-				users[socketid][1], socketid);
+			let emojiMsg = replaceWithEmojis(msg);
+			io.emit('chat message', 
+				enqueue(messages, socketid, getTimeStamp(), users[socketid][0], emojiMsg, users[socketid][1]));
 		}
 		else {
 			let command = msg.split(' ');
 			if(command[0] === "/name"){
 				if(checkDuplicateName(users, command[1])){
-					socket.emit('chat message', "That usename is already taken", "000000");
+					io.to(socketid).emit('toast message', "That username is already taken");
+				}
+				else if (command[1].length > 30){
+					io.to(socketid).emit('toast message', "Please enter a username under 30 characters");
 				}
 				else {
 					socket.emit('updateUserName', command[1]);
@@ -107,11 +122,16 @@ io.on('connect', (socket) => {
 				}
 			}
 			else if(command[0] === "/color") {
-				users[socketid][1] = command[1];
-				arst(users);
-				updateMessagesColor(messages, socketid, command[1]);
-				arst(messages);
-				io.emit('updateMessageColor', messages);
+				if(isRRGGBB(command[1])){
+					users[socketid][1] = command[1];
+					arst(users);
+					updateMessagesColor(messages, socketid, command[1]);
+					arst(messages);
+					io.emit('updateMessageColor', messages);
+				}
+				else {
+					io.to(socketid).emit('toast message', "Please input a RRGGBB format for your color");
+				}
 			}
 		}
 	});
